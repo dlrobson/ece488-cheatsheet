@@ -1,0 +1,34 @@
+\documentclass[12pt]{article}
+\usepackage[margin=0.25in]{geometry}
+\usepackage{multicol, graphicx, mathtools}
+
+\begin{document}
+\begin{multicols*}{2}
+    \underline{\smash{4.1 Basic MIMO Concepts}}
+    \begin{gather*}
+        \begin{aligned}
+            y      & = ( I + PCH )^{-1} PCr \\
+            L_o    & = PC                   \\
+            S_o    & = (I + L_o) ^ {-1}     \\
+            T_o    & = L_o(I + L_o) ^ {-1}  \\
+            S_o(s) & + T_o(s) = I
+        \end{aligned}
+    \end{gather*}
+    The \textit{minor} of a matrix is the determinant of any square submatrix obtained by deleting certain row's and/or columns of the matrix
+
+    The \textit{rank} of a matrix is the max number of linearly independent column/row vectors.
+
+    To find \(\phi(s)\), find all the minors. 1st order is just the element, while second order is as described above. Find the lowest common denominator of all non-zero minors.
+
+    A MIMO system is stable iff all the individual elements of the system are stable, and if all MIMO system poles are in the OLHP
+
+    The zero polynomial \(z(s)\) is the greatest common divisor of all the r-th order minors. Steps:
+    \begin{enumerate}
+        \item Find the minors for the MIMO system
+        \item Determine \(\phi(s)\)
+        \item Make each minor as a fraction over \(\phi(s)\)
+        \item Find the GCD of the r-th order minors.
+    \end{enumerate}
+
+\end{multicols*}
+\end{document}
