@@ -1,0 +1,28 @@
+\section*{1.1 Feed-forward and Feedback control}
+
+Feedforward control has no feedback from the output.
+To solve this, the controller is set using the \textit{inversion control strategy}.
+\begin{equation*}
+    C(s) = \frac{ 1 }{ P(s) }
+\end{equation*}
+If the resulting \( C(s) \) is improper \( C(s) \) can be modified to the following:
+\begin{equation*}
+    C(s) = \frac{1}{ P(s) \cdot (\tau s + 1) }
+\end{equation*}
+For good tracking up to \(2\pi\), set \( \frac{1}{\tau} \geq 10 * 2\pi \Rightarrow \tau \leq 0.016 \)
+
+Feedback control feeds the output back to the reference.
+High-gain control in particular frequencies with a unity-feedback control loop is a good control strategy.
+At those frequencies, we achieve good tracking, disturbance rejection, and sensitivity.
+
+\section*{1.1 Intro terms}
+
+Open-loop poles refer to the poles of \( P(s) C(s) \).
+
+Closed-loop poles are the roots of \( N_C N_P + D_C D_P \).
+
+Open left-half plane (OLHP) refer to \( Re(s) < 0 \).
+
+Close left-half plane (CLHP) refer to \( Re(s) \leq 0 \).
+
+Open right-half plane (ORHP) and Closed right-half plane (CRHP) are similarly defined.

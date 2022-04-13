@@ -1,0 +1,138 @@
+\section*{3.1 Youla Parameterization}
+For a stable plant. The set of all stabilizing controllers equals the following set:
+\[
+    \left\{
+    C(s) : C(s) = \frac{ Q(s) }{ 1 - P(s) Q(s) }
+    \right\}
+\]
+where \( Q(s) \) is \underline{\smash{proper}} and \underline{\smash{stable}} \\
+
+\section*{Coprime Factorization}
+Let \( P(s) \) be any proper TF. Then there exists \underline{\smash{stable}}
+\underline{\smash{proper}} TFs \( N_P(s) \), \( X_P(s) \), \( M_P(s) \), and \( Y_P(s) \)
+such that the following relationships hold for all s:
+\begin{gather*}
+    P(s) = \frac{ N_P(s) }{ M_P(s) }\\
+    N_P(s) X_P(s) + M_P(s) Y_P(s) = 1
+\end{gather*}
+
+\section*{Youla Parameterization for General \( P(s) \)}
+For an unstable plant. Assume there are no CRHP pole-zero cancellations in \( P(s) \).
+Perform a coprime factorization on \( P(s) \).
+Then the set of all stabilizing controllers equals the following set:
+\[
+    \left\{
+    C(s) : C(s) = \frac{ X_P(s) + M_P(s)Q(s) }{ Y_P(s) - N_P(s) Q(s) }
+    \right\}
+\]
+where \( Q(s) \) is \underline{\smash{proper}} and \underline{\smash{stable}} \\
+
+\section*{3.2 Performance Limitations}
+At frequencies where \( | S(j\omega) | \ll 1 \),
+good tracking, good disturbance rejection, and good sensitivity. Exact opposite when
+\( | S(j\omega) | \gg 1 \).
+\begin{gather*}
+    S(s) = \frac{ 1 }{ 1 + L(s) }
+\end{gather*}
+
+\underline{Ideally}:
+\begin{itemize}
+    \item \( |S(j\omega)| \) is small when \( |L(j\omega)| \) is large
+    \item \( |S(j\omega)| \) is near one (0 dB) when \( |L(j\omega)| \) is small
+\end{itemize}
+
+The complementary sensitivity, \( T(s) \), tells us that robust stability is achieved iff there is nominal stability and:
+\[
+    \begin{aligned}
+                        & | W(j\omega) T_0(j\omega) | < 1 \text{ for all } \omega               \\
+        \Leftrightarrow & | T_0(j\omega) | < \frac{ 1 }{ |W(j\omega)| } \text{ for all } \omega
+    \end{aligned}
+\]
+It also tells us how the closed-loop system responds to sensor noise.
+\[T(s) = \frac{ L(s) }{ 1 + L(s) } \]
+
+\underline{Ideally}:
+\begin{itemize}
+    \item \( |T(j\omega)| \) is small (in fact, \( |T(j\omega)| \approx |L(j\omega)| \)) at high frequencies when sensor noise is significant, and little feedback effort is used
+    \item \( |S(j\omega)| \) is near one (0 dB) at low frequencies, where lots of feedback effort is used
+\end{itemize}
+
+The relationship between the two equations:
+\begin{gather}
+    S(j\omega) + T(j\omega) = \frac{ 1 }{ 1 + L(j\omega) } + \frac{ L(j\omega) }{ 1 + L(j\omega) } = 1 \\
+    | S(j\omega) | + | T(j\omega) | \geq 1 \text{ for each } \omega
+\end{gather}
+Notes:
+\begin{itemize}
+    \item tradeoff between the reasons for wanting \( | S(j\omega) | \) to be small and the reason for wanting \( | T(j\omega) | \)
+    \item both cannot both be "good" (i.e., very small) at the same frequency, but it is possible for both to be "bad" (i.e., very large) at the same frequency
+    \item We never want the magnitude bode plots of S(s) or T(s) to have large peaks
+\end{itemize}
+
+\section*{3.3 Interpolation Constraints}
+Assume that the closed-loop system is stable.
+\begin{itemize}
+    \item If \( P(s)C(s) \) has a CRHP zero at \( s = z \), then \( S(z) = 1 \) and \( T(z) = 0 \)
+    \item If \( P(s)C(s) \) has a CRHP pole at \( s = p \), then \( S(p) = 0 \) and \( T(p) = 1 \)
+\end{itemize}
+
+\section*{3.4 Performance Limitations Due to ORHP}
+Bandwidth rule of thumb is
+\[ \text{bandwidth } > 2p \]
+
+\section*{Lemma}
+If:
+\begin{itemize}
+    \item The closed-loop system is stable
+    \item The plan has an open-loop unstable real pole at \( s = p > 0 \)
+    \item The reference signal is a unit step
+\end{itemize}
+Then the tracking error, \( e(t) = r(t) - y(t) \) necessarily satisfies:
+\[
+    \int_{0}^{\infty} e(t)e^{-pt} \,dt = 0
+\]
+An ORHP pole in the plant leads to overshoot in the closed-loop step response \\
+\begin{gather*}
+    y_{OS} \geq (1 - 0.9y_\infty)(e^{pt_r} - 1) > 0 \\
+    t_r \leq \frac{1}{p} ln \left( 1 + \frac{y_{OS}}{1 - 0.9y_\infty} \right)
+\end{gather*}
+
+\section*{Bode Sensitivy Integral}
+Assume that:
+\begin{itemize}
+    \item The controller stabilizes the closed-loop system
+    \item The loop gain, \( L(s) = P(s) C(s) \), has a \textbf{\textit{relative degree}} of at least two (i.e., it has at least two more poles than zeros).
+\end{itemize}
+Let \( N_p \geq 0 \) denote the number of ORHP poles of \( L(s) \) and denote the ORHP poles by \( p_1, \ldots , p_{N_p} \). Then the sensitivity function must satisify
+\[
+    \int_{0}^{\infty} ln|S(j\omega)| \,d\omega = \sum_{i = 1}^{N_p} Re(p_i) \geq 0
+\]
+If there are no unstable poles, then the equation reduces to
+\[
+    \int_{0}^{\infty} ln|S(j\omega)| \,d\omega = 0
+\]
+Where the negative area equals the positive area through a \textit{waterbed effect}.
+
+If there are an unstable poles, then the area of sensitivity increase must be \textit{greater than} the area of sensitivity decrease.
+
+\section*{3.5 Performance Limitations Due to ORHP Zeros}
+If the plant has an ORHP real zero at s = z, then good performance can be achieved if the closed-loop bandwidth is significantly smaller than z. ORHP Zeroes:
+\begin{itemize}
+    \item Zeroes near the origin are worse than ORHP zeroes far from the origin
+    \item ORHP zeroes lead to \textit{undershoot} in the step responses
+    \item You cannot get rid of CRHP zeroes, since \(P(s)C(s)\) is the numerator of \(T_{ry}(s)\)
+\end{itemize}
+\section*{Lemma}
+\begin{gather*}
+    \int_{0}^{\infty} y(t)e^{-zt} \,dt = 0 \\
+    y_{US} \geq \frac{0.98y_\infty}{e^{zt_s} - 1} > 0 \\
+    t_r \leq \frac{1}{z} ln \left( 1 + \frac{0.98y_\infty}{y_{US}} \right)
+\end{gather*}
+Bandwidth rule of thumb given a ORHP zero:
+\[ \text{bandwidth } < z/2 \]
+
+\section*{Poisson Integral}
+\begin{gather*}
+    \int_{0}^{\infty} ln|S(j\omega)|W(\omega) \,d\omega = \pi\sum_{i = 1}^{N_p} ln\left| \frac{p_i + z}{p_i^* - z} \right| \geq 0 \\
+    W(\omega) = \frac{2 z}{ z^2 + \omega ^ 2}
+\end{gather*}

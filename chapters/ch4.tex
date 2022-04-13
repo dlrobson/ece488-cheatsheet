@@ -1,0 +1,64 @@
+\section*{4.1 Basic MIMO Concepts}
+\begin{equation*}
+    \begin{aligned}
+        y      & = ( I + PCH )^{-1} PCr \\
+        L_o    & = PC                   \\
+        S_o    & = (I + L_o) ^ {-1}     \\
+        T_o    & = L_o(I + L_o) ^ {-1}  \\
+        S_o(s) & + T_o(s) = I
+    \end{aligned}
+\end{equation*}
+
+The \textit{minor} of a matrix is the determinant of any square submatrix obtained by deleting certain row's and/or columns of the matrix
+
+The \textit{rank} of a matrix is the max number of linearly independent column/row vectors.
+
+To find \(\phi(s)\), find all the minors. 1st order is just the element, while second order is as described above. Find the lowest common denominator of all non-zero minors.
+
+A MIMO system is stable iff all the individual elements of the system are stable, and if all MIMO system poles are in the OLHP
+
+The zero polynomial \(z(s)\) is the greatest common divisor of all the r-th order minors. Steps:
+\begin{enumerate}
+    \item Find the minors for the MIMO system
+    \item Determine \(\phi(s)\)
+    \item Make each minor as a fraction over \(\phi(s)\)
+    \item Find the GCD of the r-th order minors.
+\end{enumerate}
+
+\section*{4.2 Decentralized Control}
+\begin{itemize}
+    \item Assume plant is square
+    \item Ignore cross-channel interactions in the plant, resulting in a MIMO controller that is diagonal
+    \item If there is too much coupling, then the resulting system is unstable
+\end{itemize}
+\section*{4.3 Decoupling Control}
+\begin{itemize}
+    \item A decoupling block is added: \(P_{aug} = PW\)
+    \item Design a decentralized controller for the augmented plant: \(C=W\bar{C}\)
+\end{itemize}
+Steps:
+\begin{enumerate}
+    \item Decouple the plant at dc. i.e. Solve \(P(0)\)
+    \item Solve \(W(s)=P_1^{-1}(0)\), to get \( P_{aug} = P * W \)
+    \item Solve for the controllers, ignoring the cross-channel interactions
+    \item \(C(s) = W\bar{C}(s)\)
+\end{enumerate}
+\section*{4.4 Sequential Loop Closure}
+\begin{itemize}
+    \item Accounts for cross-channel interactions
+    \item Feedback loops are closed sequentially instead of in parallel
+    \item \textbf{This approach only applies if the plant has a triangular structure.}
+    \item Ex:
+          \begin{itemize}
+              \item Given Plant:
+                    \[
+                        P(s) = \begin{bmatrix}
+                            P_{11} & P_{12} \\
+                            0      & P_{22}
+                        \end{bmatrix}
+                    \]
+                    \(y_1 = P_{11}u_1 + P_{12}u_2\) and \(y_2 = P_{22}u_2\)
+              \item first design \( C_{22} \) to stabilize \(P_22\) since it is independent of \( P_{11} \) and \( P_{12} \)
+              \item Then design \( C_{22} \)
+          \end{itemize}
+\end{itemize}

@@ -1,0 +1,24 @@
+\documentclass[12pt]{article}
+\usepackage[margin=0.25in]{geometry}
+\usepackage{multicol, titlesec, graphicx, mathtools}
+\usepackage{parskip}
+\titleformat{\section}
+  {\normalfont\fontsize{12}{15}\scshape}{\thesection}{1em}{}
+  
+\titlespacing\section{0pt}{12pt plus 4pt minus 2pt}{3pt plus 2pt minus 2pt}
+\setlength{\abovedisplayskip}{3pt}
+\setlength{\belowdisplayskip}{0pt}
+
+\graphicspath{ {images/} }
+
+\input{commands.tex}
+
+\begin{document}
+\begin{multicols*}{2}
+  \input{chapters/ch1.tex}
+  \input{chapters/ch2.tex}
+  \input{chapters/ch3.tex}
+  \input{chapters/ch4.tex}
+  \input{chapters/ch5.tex}
+\end{multicols*}
+\end{document}

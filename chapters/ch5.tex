@@ -1,0 +1,328 @@
+\section*{5.1 Basic State-Space Framework and Manipulations}
+State-space models are not unique. Infinite number of state-space realizations that correspond to the same transfer functions
+They follow the form:
+\begin{gather*}
+    \begin{aligned}
+        \dot{x} & = Ax + Bu \\
+        y       & = Cx + Du
+    \end{aligned}
+\end{gather*}
+Manipulation 1: Convert from SS to TF
+\[
+    Y(s) = [ D + C ( sI - A )^{-1} B ] \cdot U(s)
+\]
+Manipulation 2: Poles and zeros of a SS system
+\begin{itemize}
+    \item Poles of the SS system are \( eig(A) == \) roots of \( det( sI - A ) \)
+    \item Zeroes are the values of s where the rank of the following matrix falls below its normal rank:
+          \[
+              R(s) = \begin{bmatrix}
+                  (sI - A) & -B \\
+                  C        & D
+              \end{bmatrix}
+          \]
+          Which can be computed by finding the the roots of \( det( R(s) ) \)
+\end{itemize}
+Manipulation 3: Interconnecting state-space models
+\fig[0.8]{manipulation3_question}
+\fig[0.8]{manipulation3_solution}
+Manipulation 4: Converting from TF to SS
+\begin{itemize}
+    \item SISO case, creates a SS with controllable canonical form (CCF):
+\end{itemize}
+\begin{equation*}
+    \begin{aligned}
+        \dot{x} & = \begin{bmatrix}
+            0      & 1      & 0      & \cdots & 0        \\
+            0      & 0      & 1      &        & 0        \\
+            0      & 0      & 0      & \ddots & \vdots   \\
+            \vdots & \vdots & \vdots &        & 1        \\
+            -a_0   & -a_1   & -a_2   & \cdots & -a_{n-1}
+        \end{bmatrix} x +
+        \begin{bmatrix}
+            0      \\
+            0      \\
+            \vdots \\
+            0      \\
+            1
+        \end{bmatrix} u                                        \\
+        y       & =\begin{bmatrix}
+            c_0 & c_1 & c_2 & \cdots & c_{n-1}
+        \end{bmatrix}x + \begin{bmatrix}
+            d
+        \end{bmatrix}u
+    \end{aligned}
+\end{equation*}
+
+\begin{itemize}
+    \item SIMO case:
+          \[
+              G(s) = \begin{bmatrix}
+                  A_1    & 0   & \cdots & B_1    \\
+                  0      & A_2 &        & B_2    \\
+                  \vdots &     & \ddots & \vdots \\
+                  C_1    & 0   & \cdots & D_1    \\
+                  0      & C_2 &        & D_2    \\
+                  \vdots &     & \ddots & \vdots \\
+              \end{bmatrix}
+          \]
+    \item MIMO case:
+          \[
+              G(s) = \begin{bmatrix}
+                  A_1    & 0   & \cdots & B_1    & 0   & \cdots \\
+                  0      & A_2 &        & 0      & B_2 &        \\
+                  \vdots &     & \ddots & \vdots &     & \ddots \\
+                  C_1    & C_2 & \cdots & D_1    & D_2 & \cdots \\
+              \end{bmatrix}
+          \]
+\end{itemize}
+Manipulation 5: Block Diagram of SS Model
+
+\fig[0.8]{manipulation5}
+
+\section*{5.2 Controllability, Observability, Stabilizability, and Detectability}
+Modes that show up on the output y(t) are said to be \textit{Observable}.
+If all modes are observable, the state-space realization is said to \textit{observable}.
+If not, it's \textit{unobservable}
+
+Modes that are affected by the input are said to \textit{controllable}
+If all modes are controllable, the state-space realization is said to \textit{controllable}.
+If not, it's \textit{uncontrollable}
+
+A state-space realization where \underline{all unstable} modes are controllable is said to be \textit{stabilizable}.
+\begin{equation*}
+    \text{controllability} \Rightarrow \text{stabilizability}
+\end{equation*}
+
+A state-space realization where \underline{all unstable} modes are observable is said to be \textit{detectable}.
+\begin{equation*}
+    \text{observability} \Rightarrow \text{detectability}
+\end{equation*}
+
+A system is controllable and observable iff the corresponding TF matrix has no P-Z cancellations
+
+A system is stabilizable and detectable iff the corresponding TF matrix has no \underline{unstable} P-Z cancellations
+
+\section*{5.2.2 Controllability and Stabilizability}
+\( A, B \) is controllable iff the n x (nm) \textit{controllability matrix} has rank \( n \).
+\begin{equation*}
+    M_c = \begin{bmatrix}
+        B & AB & A^2B & \cdots & A^{n-1}B \\
+    \end{bmatrix}
+\end{equation*}
+
+Using the PBH controllability test, \( A, B \) is controllable iff
+\begin{equation*}
+    \text{rank}\begin{bmatrix}
+        A - \lambda I & B \\
+    \end{bmatrix} = n \text{ for all } \lambda \in \text{eig}(A)
+\end{equation*}
+Recall: eig(A) is found as the solutions to \( \lambda \), for det\( ( A - \lambda I ) \)
+
+\section*{5.2.3 Observability and Detectability}
+\( A, C \) is observable iff the (pn) x n \textit{observability matrix} has rank \( n \).
+\begin{equation*}
+    M_o = \begin{bmatrix}
+        C        \\
+        CA       \\
+        CA^2     \\
+        \vdots   \\
+        CA^{n-1} \\
+    \end{bmatrix}
+\end{equation*}
+
+Using the PBH observability test, \( A, C \) is controllable iff
+\begin{equation*}
+    \text{rank}\begin{bmatrix}
+        A - \lambda I \\
+        C             \\
+    \end{bmatrix} = n \text{ for all } \lambda \in \text{eig}(A)
+\end{equation*}
+Recall: eig(A) is found as the solutions to \( \lambda \), for det\( ( A - \lambda I ) \)
+
+\section*{5.3 Plain State Feedback Control (Pole Placement)}
+The plain state-feedback controller \( u = -Kx + r \) can arbitrarily place poles.
+The plant \textbf{must be controllable}.
+If it is uncontrollable but stabilizable, we cannot place poles arbitrarily but we can find a \( K \) to stabilizie \( A - BK \).
+
+K is a row vector.
+
+Steps:
+\begin{equation*}
+    \begin{aligned}
+        A_{CLS}      & = A - BK          \\
+        \pi(s)       & = det(sI-A_{CLS}) \\
+        \pi_{des}(s) & = \pi(s)          \\
+    \end{aligned}
+\end{equation*}
+
+CLS poles are at eig(\( A_{CLS} \)) = eig(\( A - BK \))
+
+\section*{5.4 Observer}
+Consider the following Plant:
+\begin{equation*}
+    \begin{aligned}
+        \dot{x} & = Ax + Bu \\
+        y       & = Cx + Du \\
+    \end{aligned}
+\end{equation*}
+and Observer
+\begin{equation*}
+    \begin{aligned}
+        \dot{\hat{x}} & = A\hat{x} + Bu + H(y - \hat{y}) \\
+        \hat{y}       & = C\hat{x} + Du                  \\
+    \end{aligned}
+\end{equation*}
+The estimation error is given by \( e(t) = x(t) - \hat{x}(t) \). Then:
+\begin{itemize}
+    \item \( \dot{e} = (A - HC)e \), and \( e(t = \infty) = 0 \) for any IC \( e(0) \) iff eig(\( A - HC \)) \( \in \) OLHP.
+    \item The poles of eig(\( A - HC \)) can be placed arbitrarily iff (A, C) is \underline{observable}.
+    \item The poles of eig(\( A - HC \)) can be placed in OLHP iff (A, C) is only \underline{detectable}.
+\end{itemize}
+
+H is a column vector.
+
+Steps:
+\begin{equation*}
+    \begin{aligned}
+        \pi(s)       & = det(sI - (A - HC)) \\
+        \pi_{des}(s) & = \pi(s)             \\
+    \end{aligned}
+\end{equation*}
+
+
+Resulting state-space realization:
+\begin{equation*}
+    \begin{aligned}
+        \begin{bmatrix}
+            \dot{x}       \\
+            \dot{\hat{x}} \\
+        \end{bmatrix}
+                & = \begin{bmatrix}
+            A  & 0    \\
+            HC & A-HC \\
+        \end{bmatrix}\begin{bmatrix}
+            x       \\
+            \hat{x} \\
+        \end{bmatrix} + \begin{bmatrix}
+            B \\
+            B
+        \end{bmatrix} u \\
+        \bar{y} & = I \cdot \begin{bmatrix}
+            x       \\
+            \hat{x} \\
+        \end{bmatrix}
+    \end{aligned}
+\end{equation*}
+
+\section*{5.4 Observer-based state-feedback control}
+Mixture of solving for K and H, using the above steps. The CLS for the observer-based state-feedback controller:
+\begin{equation*}
+    \begin{aligned}
+        \begin{bmatrix}
+            \dot{x} \\
+            \dot{e} \\
+        \end{bmatrix}
+          & = \begin{bmatrix}
+            A-BK & BK   \\
+            0    & A-HC \\
+        \end{bmatrix}\begin{bmatrix}
+            x \\
+            e \\
+        \end{bmatrix} + \begin{bmatrix}
+            B \\
+            0
+        \end{bmatrix} r \\
+        y & = \begin{bmatrix}
+            C & 0 \\
+        \end{bmatrix} \begin{bmatrix}
+            x \\
+            e \\
+        \end{bmatrix}
+    \end{aligned}
+\end{equation*}
+
+The closed loop poles are found at eig(\(A-HC\)) \(\cup\) eig(\(A-BK\))
+
+General rule-of-thumb is to place eig(\(A-HC\)) about twice as fast (i.e., real parts twice as large) as eig(\(A-BK\)).
+
+K: Arbitrary pole placement is possible iff (A, B) is controllable, and stabilization is possible iff (A, B) is stabilizable.
+
+H: Arbitrary placement of poles of the observer error-dynamics is possible iff (A, C) is observable, and they can be placed (not necessarily arbitrarily) in the OLHP iff (A, C) is detectable.
+
+\section*{5.5 Plain state-feedback controller with integral action}
+
+\fig[1.0]{5.5-integral-control}
+\begin{equation*}
+    \begin{aligned}
+        \begin{bmatrix}
+            \dot{x} \\
+            \dot{z} \\
+        \end{bmatrix} & = \begin{bmatrix}
+            A & 0 \\
+            C & 0 \\
+        \end{bmatrix}\begin{bmatrix}
+            x \\
+            z \\
+        \end{bmatrix} + \begin{bmatrix}
+            B \\
+            0 \\
+        \end{bmatrix}u + \begin{bmatrix}
+            0  \\
+            -I \\
+        \end{bmatrix}r \\
+        \dot{\tilde{x}}            & = \tilde{A}\tilde{x} + \tilde{B}u + \tilde{B}_r r                                                                  \\
+    \end{aligned}
+\end{equation*}
+
+The CLS poles (eig(\( \tilde{A} - \tilde{B} K \))) can be placed arbitrarily iff (\( \tilde{A}, \tilde{B}\)) is controllable
+Essentially, the same steps as in 5.3, however \( A \) is replaced with \( \tilde{A} \).
+Still need to calculate the characteristic polynomial using det(\( sI - (\tilde{A} - \tilde{B}K) \))
+
+\section*{5.5 Observer-based state feedback controller with integral action}
+
+Essentially, the same steps as in 5.4, however \( A \) is replaced with \( \tilde{A} \).
+
+CLS poles: eig(\(\tilde{A}-\tilde{B}K\)) \(\cup\) eig(\(A - HC\))
+
+K: Arbitrary pole placement is possible iff (\(\tilde{A}, \tilde{B}\)) is controllable.
+Stabililization is possible iff \(\tilde{A}, \tilde{B}\) is stabilizable.
+
+H: Arbitrary placement of poles of the observer error-dynamics is possible iff (A, C) is observable.
+They can be placed (not necessarily arbitrarily) in the OLHP iff (A, C) is detectable.
+
+\section*{5.6 Optimal State-feedback control}
+
+Where \( Q \geq 0 \) and \( R > 0 \), minimize:
+\begin{equation*}
+    J=\int_0^\infty x(t)^T Q x(t) + u(t)^T R u(t) dt
+\end{equation*}
+Assume that (A, B) is stabilizable and (A, Q) is detectable.
+
+The resulting controller is the stabilizing linear state-feedback controller, \( u(t) = -Kx(t) \), where K is computed by finding the unique symmetric PSD solution P to the algebraic Riccati equation (ARE):
+\begin{equation*}
+    A^T P + PA - PBR^{-1}B^TP + Q = 0
+\end{equation*}
+and setting \( K = R^{-1}B^T P\).
+
+Q and R are tuning knobs. Q is commonly a diagonal matrix where \( q_{ii} \geq 0 \).
+This results in:
+\begin{equation*}
+    x(t)^T Qx(t) = q_{11}x_1^2(t) + q_{22}x_2^2(t) + \cdots + q_{nn} x_n^2(t)
+\end{equation*}
+Q is commonly chosen as \( Q = C^T C \). This leads to:
+\begin{equation*}
+    \begin{aligned}
+        y(t)         & = Cx(t)      \\
+        x(t)^T Qx(t) & = ||y(t)||^2
+    \end{aligned}
+\end{equation*}
+
+R is also commonly a diagonal matrix.
+
+Decreasing R minimizes the control effort, and the poles go off to \( -\infty \).
+Increasing R increases the control effort, and the poles approach the OL poles.
+
+Changing R does the opposite effect.
+
+Increasing Q and R by the same factor does not change K or the pole locations.
