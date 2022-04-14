@@ -1,0 +1,61 @@
+\section*{Matrix Things}
+\begin{itemize}
+    \item \(\det\begin{bmatrix}
+              a & b \\ c & d
+          \end{bmatrix} = a\det(d)-b\det(c) =ad-bc\)
+          \[\det\begin{bmatrix}
+                  a & b & c \\ d & e & f \\ g & h & k
+              \end{bmatrix}= +a
+              \det\begin{bmatrix}
+                  e & f \\ h & k
+              \end{bmatrix}-b
+              \det\begin{bmatrix}
+                  d & f \\ g & k
+              \end{bmatrix}+c
+              \det\begin{bmatrix}
+                  d & e \\ g & h
+              \end{bmatrix}\]
+          \[
+              =+a(ek-fh)-b(dk-fg)+c(dh-eg)
+          \]
+    \item Inverse of matrix: \(M^{-1}=\frac{adj(M)}{det(M)}\)
+          \[\begin{bmatrix}
+                  a & b \\ c & d
+              \end{bmatrix}^{-1}=\frac{1}{ad-bc}
+              \begin{bmatrix}
+                  d & -b \\ -c & a
+              \end{bmatrix}
+          \]
+          \[
+              M^{-1}=
+              \begin{bmatrix}
+                  a & b & c \\ d & e & f\\ g & h &k
+              \end{bmatrix}^{-1}=
+              \frac{1}{det(M)}adj(M)
+          \]
+          \[
+              adj(M)=
+              \begin{bmatrix}
+                  +det\begin{bmatrix}e & f \\ h & k\end{bmatrix}  & -det\begin{bmatrix}b & c \\ h & k\end{bmatrix} & +det\begin{bmatrix}b & c \\ e & f\end{bmatrix} \\
+                  -det\begin{bmatrix}d & f \\ g & k\end{bmatrix} & +det\begin{bmatrix}a & c \\ g & k\end{bmatrix} & -det\begin{bmatrix}a & c \\ d & f\end{bmatrix} \\
+                  +det\begin{bmatrix}d & e \\ g & h\end{bmatrix} & -det\begin{bmatrix}a & b \\ g & h\end{bmatrix} & +det\begin{bmatrix}a & b \\ d & e\end{bmatrix}
+              \end{bmatrix}\]
+    \item \(det(M)\neq0\) for full rank \(M\)
+    \item Rank of \(n\times m\) matrix M is number of linearly independent columns, or number of linearly independent rows. Both will be the same.
+    \item An \(n \times n\) matrix A has n eigenvalues \(\lambda\) associated with n eigenvectors v that satisfy this equation \(Av=\lambda v\).
+          \[eig(A)=\{\lambda : \det(A-\lambda I)=0\}\]
+          Characteristic polynomial of A: \(\pi(s)=\det(A-\lambda I)\)
+    \item Let M be a symmetric matrix. The scalar \(x^TMx\) is called a quadratic form. M is positive definite (PD) if \(x^TMx>0\) for any vector \(x\neq 0\) (shortform \(M>0\)), it is positive semi-definite (PSD) if \(x^TMx\geq 0\) for any vector x (shortform \(M\geq 0\)). M is PD iff all eigs of M are positive, PSD iff all eigs are non-negative.
+    \item For block triangular matrices
+          \[
+              M = \begin{bmatrix}
+                  M_1 & 0 \\ M_2 & M_3
+              \end{bmatrix}
+              \quad or \quad
+              M=\begin{bmatrix}
+                  M_1 & M_2 \\ 0 & M_3
+              \end{bmatrix}
+          \]
+          \[det(M)=det(M_1)\cdot det(M_3)\]
+          \[eig(M)=eig(M_1)\cup eig(M_3)\]
+\end{itemize}

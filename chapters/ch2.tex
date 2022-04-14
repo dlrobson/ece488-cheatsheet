@@ -1,3 +1,137 @@
+\section*{2.1 Laplace Transforms}
+\begin{equation*}
+    \begin{aligned}
+        u_{step}(t)        & \Rightarrow \frac{1}{s}         \\
+        u_{ramp}(t)        & \Rightarrow \frac{1}{s^2}       \\
+        e^{at}u_{step}(t)  & \Rightarrow \frac{1}{s - a}     \\
+        sin(at)u_{step}(t) & \Rightarrow \frac{a}{s^2 + a^2} \\
+        cos(at)u_{step}(t) & \Rightarrow \frac{s}{s^2 + a^2} \\
+        \delta(t)          & \Rightarrow 1                   \\
+    \end{aligned}
+\end{equation*}
+
+\section*{2.1 Bode Plots}
+
+\fig[0.825]{2.1-bode}
+
+\fig[0.825]{2.1-bode2}
+
+\section*{2.2 Routh-Hurwitz}
+
+BIBO stable iff proper and all poles lie in OLHP.
+
+Given:
+\begin{equation*}
+    Q(s) = a_n s^n + a_{n-1}s^{n-1} + \cdots + a_1 s + a_0
+\end{equation*}
+
+\fig[0.9]{2.2-routh-hurwitz}
+\begin{equation*}
+    b_1 = \frac{a_{n-1}a_{n-2} - a_n a_{n-3}}{a_{n-1}}
+\end{equation*}
+
+All roots of Q(s) are in the OLHP iff all elements in the first column do not have any sign changes.
+
+\section*{2.3 Steady-state Calculations}
+
+FVT states:
+\begin{equation*}
+    f_\infty = \lim_{s \rightarrow 0}sF(s)
+\end{equation*}
+
+For a standard controller plant combination, the following equations can apply
+\begin{equation*}
+    \begin{aligned}
+        y_\infty = T_{ry}(0) = \lim_{s \rightarrow 0} \frac{PC}{1 + PC}
+        e_\infty = T_{re}(0) = \lim_{s \rightarrow 0} \frac{1}{1 + PC}
+    \end{aligned}
+\end{equation*}
+
+\section*{2.4 Transient Response Calculations}
+
+Dominant Dynamics: the closer the poles and zeros are to the origin, the more important they are.
+
+Poles and zeros close together in the OLHP essentially cancel each other out
+
+First order systems equations:
+\begin{equation*}
+    H(s) = \frac{1}{\tau s + 1}
+\end{equation*}
+The 2\% settling time is about \( T_s \approx 4 \tau \).
+
+Second-order systems:
+\begin{equation*}
+    H(s) = \frac{\omega_n^2}{s^2 + 2 \zeta \omega_n s + \omega_n^2}
+\end{equation*}
+System is underdamped when \( 0 < \zeta < 1 \).
+
+\fig[0.8]{2.4-second-order}
+
+\begin{tabular}{l r}
+    2\% settling time     & \(T_s \approx \frac{4}{\zeta\omega_n}\)               \\
+    Oscillation frequency & \( \omega_n \sqrt{1-\zeta^2}\)                        \\
+    Overshoot             & \( OS = 100\exp{\frac{-\zeta\pi}{\sqrt{1-\zeta^2}}}\) \\
+    Peak time             & \( T_p = \frac{\pi}{\omega_n\sqrt{1-\zeta^2}}\)       \\
+\end{tabular}
+
+OLHP poles make the reponse more sluggish.
+OLHP zeros make the response more perky
+
+Bandwidth relates to the speed of response.
+Higher bandwidth means a faster speed of response.
+Bandwidth is often defined to be the frequency where \( G(j\omega) \) is 3 dB less than \( | G(0) |\)
+Bandwidth is also defined as the gain-crossover frequency, which is the frequency where \( |P(j\omega)C(j\omega)| = 0 dB \)
+
+\section*{2.5 Root Locus Methods}
+
+\begin{equation*}
+    Q(s) = D(s) + K \cdot N(s)
+    P(s)C(s) = \frac{N(s)}{D(s)}
+\end{equation*}
+m is the order of N(s)
+n is the order of D(s)
+
+Rules:
+\begin{itemize}
+    \item RL is symmetric about the real axis.
+    \item RL plot consists of n branches.
+    \item RL is a continuous function of K.
+    \item The root locus starts at the roots of D(s)
+    \item m branches terminate at the m roots of N(s). The remaining n-m branches go off to infinity. It is centered around \( \sigma \).
+          \begin{equation*}
+              \sigma = \frac{\Sigma(\text{roots of D(s)}) - \Sigma(\text{roots of N(s)})}{n-m}
+          \end{equation*}
+    \item no-yes-no rule. A test point s located on the real axis is part of the root locus if
+          and only if the total number of (finite) real poles and zeros of P(s)C(s) to the right
+          of s is odd.
+\end{itemize}
+
+\section*{2.6 Nyquist Plots}
+
+If the number of CCW encirclements of the critical point \( s = -1 \) by the Nyquist plot of L(s) equals the number of OLS poles in the ORHP.
+
+\section*{2.6 Phase Margin and Gain Margin}
+
+\fig[0.95]{2.6-PM-GM}
+
+\begin{equation*}
+    PM \approx 100\zeta \text{ [deg]}
+\end{equation*}
+
+\section*{2.7 Lead, Lag, PID}
+
+Lead compensation increases PM.
+
+Lag compensation boosts low-frequency gain, or can increase PM.
+
+PID control is simple controller and is commonly used.
+\begin{equation*}
+    \begin{aligned}
+        C(s) & = K_P + \frac{K_I}{s} + \frac{K_D s}{\tau s + 1} \\
+        C(s) & = \frac{K_D s^2 + K_P s + K_I}{s (\tau s + 1)}   \\
+    \end{aligned}
+\end{equation*}
+
 \section*{2.8 Small Gain Theorem}
 
 \fig[0.6]{2.8-SGT}
@@ -5,3 +139,29 @@
 \(M(s)\) is known and stable
 
 \(\Delta(s)\) is uncertain but stable with \( |\Delta(j\omega)| < 1 \) for all \( \omega \)
+\begin{equation*}
+    \left| \Delta(j\omega)M(j\omega) < 1 \right| \text{ for all } \omega \text{ and all admissible } \Delta(s)
+\end{equation*}
+or, equivalently,
+\begin{equation*}
+    \left| M(j\omega) \leq 1 \right| \text{ for all } \omega
+\end{equation*}
+
+\fig[0.9]{2.8-SGT-example}
+
+\section*{2.9 Loopshaping}
+
+\begin{equation*}
+    L(s) = P(s)C(s)
+\end{equation*}
+
+At low frequencies, we want:
+\begin{equation*}
+    \left| L(j\omega) \right| \gg 1
+\end{equation*}
+
+At high frequencies, we want:
+\begin{equation*}
+    \left| L(j\omega) \right| \ll 1
+\end{equation*}
+
